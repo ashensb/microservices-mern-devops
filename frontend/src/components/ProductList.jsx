@@ -4,13 +4,13 @@ function ProductList({ products, onBuyProduct }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('default');
 
-  // Clipboard එකට ID එක copy කරන සරල function එකක්
+ 
   const copyToClipboard = (id) => {
     navigator.clipboard.writeText(id);
     alert('Product ID copied to clipboard! 📋');
   };
 
-  // Search සහ Filter Logic
+  //search and sort logic
   const filteredProducts = products
     .filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .sort((a, b) => {
@@ -19,7 +19,7 @@ function ProductList({ products, onBuyProduct }) {
       return 0;
     });
 
-  // Stats ගණනය කිරීම්
+  // Stats calculation
   const totalMarketValue = products.reduce((acc, curr) => acc + curr.price, 0);
 
   return (

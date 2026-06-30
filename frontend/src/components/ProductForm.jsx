@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const PRODUCT_API = import.meta.env.VITE_PRODUCT_API_URL || 'http://localhost:5001';
+
 function ProductForm({ products, onProductAdded, onDeleteProduct, onUpdateProduct }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -10,13 +12,11 @@ function ProductForm({ products, onProductAdded, onDeleteProduct, onUpdateProduc
     if (!name || !price) return;
 
     if (editId) {
-      // Update Mode
       await onUpdateProduct(editId, name, Number(price));
       setEditId(null);
     } else {
-      // Create Mode
       try {
-        await fetch('http://localhost:5001/api/products', {
+        await fetch(`${PRODUCT_API}/api/products`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, price: Number(price), stock: 20 })
@@ -35,7 +35,6 @@ function ProductForm({ products, onProductAdded, onDeleteProduct, onUpdateProduc
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Form Card */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl h-fit">
         <h2 className="text-xl font-bold mb-4 text-cyan-400">
           {editId ? '📝 Edit Product' : '📦 Add New Product'}
@@ -60,7 +59,6 @@ function ProductForm({ products, onProductAdded, onDeleteProduct, onUpdateProduc
         </form>
       </div>
 
-      {/* Admin Inventory Controls */}
       <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
         <h2 className="text-xl font-bold mb-4 text-slate-200">Inventory Control Panel</h2>
         <div className="divide-y divide-slate-800">
